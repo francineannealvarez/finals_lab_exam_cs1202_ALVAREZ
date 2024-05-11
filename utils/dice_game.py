@@ -45,7 +45,6 @@ class DiceGame:
             return
         if self.user_manager.login(username, password):
             print("Logged in successfully.")
-            self.current_user = User(username, password)
             self.user_menu()
         else:
             print("Invalid username or password.")
