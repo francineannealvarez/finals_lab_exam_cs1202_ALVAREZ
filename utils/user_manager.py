@@ -15,7 +15,7 @@ class UserManager:
 					username, password = info.strip().split(",")
 					self.users[username] = password
 
-	def save_users():
+	def save_users(self):
 		with open("users.txt", "a") as file:
 			for username, password in self.users():
 				file.write(f"{username}, {password}\n")
@@ -26,7 +26,7 @@ class UserManager:
 		else:
 			return False
 
-	def validate_password():
+	def validate_password(self, password):
 		if len(password) >= 8:
 			return True
 		else:
