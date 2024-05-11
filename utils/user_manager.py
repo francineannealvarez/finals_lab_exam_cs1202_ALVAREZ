@@ -1,6 +1,7 @@
 import os
+from user import User
 
-class UserManager:
+class UserManager(User):
     def __init__(self, users):
         self.users = {} #empty dictionary
         self.load_users() #invoke load_users function
