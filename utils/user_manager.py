@@ -32,8 +32,16 @@ class UserManager:
 		else:
 			return False
 
-	def register():
-		pass
+	def register(self, username, password):
+		if self.validate_username and self.validate_password:
+			self.users[username] = password
+			self.save_users()
+			return True
+		else:
+			return False
 
-	def login():
-		pass
+	def login(self, username, password):
+		if username in self.users and self.users[username]["password"] == password:
+			return True
+		else:
+			return False
