@@ -1,4 +1,8 @@
 class UserManager:
+	def __init__(self, users):
+		self.users = {}
+		self.load_users()
+
 	def load_users():
 		pass
 
