@@ -1,5 +1,8 @@
 import os
 from utils.user import User
+from utils.dice_game import *
+
+diceGame = DiceGame()
 
 class UserManager:
     def __init__(self):
@@ -8,23 +11,14 @@ class UserManager:
 
     def load_users(self):
         try:
-            with open("users.txt", "w") as file:
+            with open("users.txt", "r") as file:
                 for line in file:
                     username, password = line.strip().split(",")
                     self.users[username] = password
+        except FileNotFoundError:
+            print("No existing user data found.")
         except Exception as e:
-            print(f"Error occured: {e}")
-            # Create the data directory if it doesn't exist
-           # if not os.path.exists("data"):
-                #os.makedirs("data")
-
-            # Create the users.txt file if it doesn't exist
-            #if not os.path.exists("data/users.txt"):
-               # open("data/users.txt", "w").close()  
-
-            # Read user information from the file
-            
-
+            print(f"Error occurred while loading users: {e}")
 
     def save_users(self):
         try:
@@ -33,7 +27,7 @@ class UserManager:
                     file.write(f"{username},{password}\n")
         except Exception as e:
             print(f"Error occurred while saving users: {e}")
-			 
+
     def validate_username(self, username):
         if len(username) >= 4:
             if username not in self.users:
@@ -49,16 +43,45 @@ class UserManager:
         else:
             print("Password must be at least 8 characters long.")
 
-    def register(self, username, password):
-        if self.validate_username and self.validate_password:
-            self.users[username] = password
-            self.save_users()
-            return True
-        else:
-            return False
+    def register(self):
+        while True:
+            username = input("Enter username: ")
+            if not username.strip():
+                print("Canceled.")
+                return
+            password = input("Enter password: ")
+            if not password.strip():
+                print("Canceled.")
+                return
+            if self.validate_username(username) and self.validate_password(password):
+                if username in self.users:
+                    print("Username already exists.")
+                else: 
+                    self.users[username] = User(username, password)
+                    self.save_users()
+                    print("Registration successful.")
+                    return True
+            else:
+                print("Registration failed. Please try again.")
+                return False
 
-    def login(self, username, password):
-        if username in self.users and self.users[username] == password:
-            return True
+    def login(self):
+        username = input("Enter username: ")
+        if not username.strip():
+            print("Login failed.")
+            return
+
+        if username in self.users:
+            password = input("Enter password, or leave blank to cancel: ")
+            if not password.strip():
+                print("Login canceled.")
+                return
+
+            if self.users[username].password == password:
+                print("Logged in successfully.")
+                self.current_user = username
+                diceGame.game_menu(username)
+            else:
+                print("Invalid username or password.")
         else:
-            return False
+            print("Username does not exist.")
