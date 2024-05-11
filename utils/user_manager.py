@@ -20,11 +20,17 @@ class UserManager:
 			for username, password in self.users():
 				file.write(f"{username}, {password}\n")
 			 
-	def validate_username():
-		pass
+	def validate_username(self, username):
+		if len(username) >= 4 and username not in self.users:
+			return True
+		else:
+			return False
 
 	def validate_password():
-		pass
+		if len(password) >= 8:
+			return True
+		else:
+			return False
 
 	def register():
 		pass
