@@ -1,17 +1,35 @@
 import random
 import os
-from user import User
-from score import Score
+from utils.user import User
+from utils.score import Score
 
-
-class DiceGame:
+class DiceGame(User, Score):
     def __init__(self, user_manager):
         self.user_manager = user_manager
         self.scores = {}
         self.current_user = None
         self.load_scores()
+        current_user = user_manager.current_user
+        if current_user:
+            User.__init__(self, current_user.username, current_user.password)
+            Score.__init__(self, current_user.username)  # Assuming game_id is defined
+        else:
+            User.__init__(self, "", "")  # Initialize with empty username and password
+            Score.__init__(self, "", "")  # Initialize with empty username and game_id
+
+
+
 	
     def load_scores(self):
+        try:
+            with open('data/rankings.txt', 'r') as file:
+                for line in file:
+                    username, game_id, points, wins = line.strip().split(',')
+                    self.scores.append({'username': username, 'game_id': int(game_id), 'points': int(points), 'wins': int(wins)})
+        except FileNotFoundError:
+            # Create the data folder if it doesn't exist
+            os.makedirs('data', exist_ok=True)
+        '''
         if not os.path.exists("datafolder.txt"):
             os.makedirs("datafolder.txt") #create file
         if not os.path.exists("datafolder/rankings.txt"):
@@ -25,7 +43,7 @@ class DiceGame:
                     score.points = int(points)
                     score.wins = int(wins)
                     self.scores.append(score)
-
+'''
     def save_scores(self):
         with open("datafolder/rankings.txt", "w") as file:
             for scores in self.scores:

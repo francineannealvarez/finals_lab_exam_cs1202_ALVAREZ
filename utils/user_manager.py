@@ -1,16 +1,17 @@
 import os
-from user import User
+from utils.user import User
 
-class UserManager(User):
-    def __init__(self, users):
-        self.users = {} #empty dictionary
-        self.load_users() #invoke load_users function
+class UserManager:
+    def __init__(self):
+        self.users = {}
+        self.load_users()
+        self.current_user()
+
 
     def load_users(self):
         if not os.path.exists("users.txt"):
             os.makedirs("users.txt") #create file
-            f=open("users.txt", "w")
-            f.close()
+            open("users.txt", "w").close()
             with open("users.txt") as file: #with to automatically close without the need of close()
                 for info in file:
                     username, password = info.strip().split(",")
