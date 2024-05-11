@@ -1,19 +1,86 @@
+import random
+import os
+from user import User
+from score import Score
+
+
 class DiceGame:
+    def __init__(self, user_manager):
+        self.user_manager = user_manager
+        self.scores = {}
+        self.current_user = None
+        self.load_scores()
 	
-    def load_scores():
-        pass
+    def load_scores(self):
+        if not os.path.exists("datafolder.txt"):
+            os.makedirs("datafolder.txt") #create file
+        if not os.path.exists("datafolder/rankings.txt"):
+            f=open("datafolder/rankings.txt", "w")
+            f.close()
+            self.scores = []
+            with open("datafolder/rankings.txt") as file: #with to automatically close without the need of close()
+                for line in file:
+                    username, game_id, points, wins = line.strip().split(",")
+                    score = Score(username, int(game_id))
+                    score.points = int(points)
+                    score.wins = int(wins)
+                    self.scores.append(score)
 
-    def save_scores():
-        pass
+    def save_scores(self):
+        with open("datafolder/rankings.txt", "w") as file:
+            for scores in self.scores:
+                file.write(f"{scores.username},{scores.game_id},{scores.points},{scores.wins}\n")
 
-    def play_game():
-        pass
+    def play_game(self, username):
+        stages = 3
+        stages_won = 0
+        while True:
+            dice_user = random.randint(1,6) 
+            dice_cpu = random.randint(1,6) 
+            print(f"{username} rolled: {dice_user}")    
+            print(f"CPU rolled: {dice_cpu}")
+            if dice_user > dice_cpu:
+                    print(f"You win this round {username}!")
+                    stages -= 1
+                    self.score += 1
+                    self.wins +=1
+                    if stages == 0:
+                        self.game = False
+                    else:
+                        continue
+            elif dice_user < dice_cpu:
+                    print(f"CPU wins this round!")
+                    stages -= 1
+                    if stages == 0:
+                        self.game = False
+                    else:
+                        continue
+            elif dice_user == dice_cpu:
+                    print(f"It's a tie!")
+                    stages -= 1
+                    if stages == 0:
+                        self.game = False
+                    else:
+                        continue
+            if self.wins >= 2:
+                self.score += 3
+                stages_won += 1
+                print(f"You won this stage {username}")
+                print(f"Total Points: {self.score},Stages won: {stages_won}")
+                user_choice = input("Do you want to continue to the next stage? (1 for Yes, 0 for No)")
+                if user_choice == "1":
+                    continue
+                elif user_choice == "0":
+                    print(f"Game over. You won {stages_won} with a total of {self.score} points.")
+                else: 
+                    print("Invalid input. Please enter 1 for Yes and 0 for No.")
+
 
     def show_top_scores():
         pass
     
-    def logout():
-        pass
+    def logout(self):
+        self.current_user = None
         
     def menu():
         pass
@@ -45,6 +112,7 @@ class DiceGame:
             return
         if self.user_manager.login(username, password):
             print("Logged in successfully.")
+            self.current_user = User(username, password)
             self.user_menu()
         else:
             print("Invalid username or password.")
@@ -65,7 +133,8 @@ class DiceGame:
             self.show_top_scores() 
         elif user_choice == "3":
             self.logout()
-            print("Logged out successfully.")
+            print(f"Goodbye {username}")
+            print("You Logged out successfully.")
         else:
             print("Invalid choice.")
 
