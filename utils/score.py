@@ -3,6 +3,5 @@ class Score:
 		self.username = username
 		self.game_id = game_id
 		self.points = 0
-		self.wins = 0
 		self.score = 0
-		self.game = True
+		self.wins = 0

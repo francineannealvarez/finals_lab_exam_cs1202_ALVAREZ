@@ -1,13 +1,11 @@
 from utils.user_manager import UserManager
-from utils.dice_game import DiceGame
-from utils.user import User
 
-user_manager=UserManager()
+user_manager = UserManager()
 
 def main():
     user_manager.load_users()
     while True:
-        print("Welcome to Dice Roll Game!")
+        print("\nWelcome to Dice Roll Game!")
         print("1. Register")
         print("2. Login")
         print("3. Exit")
@@ -20,6 +18,8 @@ def main():
         elif user_choice == "3":
             print("Exiting")
             break
+        else: 
+            print("Invalid choice. Please try again.")
 
 if __name__ == "__main__":
     main()
