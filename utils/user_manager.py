@@ -90,5 +90,7 @@ class UserManager:
                 diceGame.game_menu(username)
             else:
                 print("Invalid username or password.")
+                return
         else:
             print("Username does not exist.")
+            return

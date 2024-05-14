@@ -1,4 +1,4 @@
-from utils.user_manager import UserManager
+from utils.user_manager import *
 
 user_manager = UserManager()
 

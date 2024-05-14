@@ -89,6 +89,7 @@ class DiceGame:
         except FileNotFoundError:
             print("Error: Could not save score. File not found.")
 
+#Function that shows top scores in rankings from 1 to 10
     def show_top_scores(self, username):
         try:
             with open("data/rankings.txt", "r") as file:
