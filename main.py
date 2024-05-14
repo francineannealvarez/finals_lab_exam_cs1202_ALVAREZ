@@ -5,6 +5,7 @@ user_manager = UserManager()
 def main():
     user_manager.load_users()
     while True:
+        
         print("\nWelcome to Dice Roll Game!")
         print("1. Register")
         print("2. Login")
