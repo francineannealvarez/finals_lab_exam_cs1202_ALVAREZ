@@ -9,7 +9,6 @@ class DiceGame:
     def __init__(self):
         self.scores = {}
         self.users = {}
-        self.current_user = None
         self.load_scores()
 
 #Function to automatically start the dice game

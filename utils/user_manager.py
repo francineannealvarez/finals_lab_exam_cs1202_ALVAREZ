@@ -1,6 +1,6 @@
 import os
 from utils.user import *
-from utils.dice_game import DiceGame
+from utils.dice_game import *
 
 diceGame = DiceGame()
 
@@ -9,7 +9,7 @@ class UserManager:
         self.users = {}
         self.load_users()
 
-#funtion to open, read and iterate the ysers file inside the data directory
+#funtion to open, read and iterate the users file inside the data directory
     def load_users(self):
         try:
             with open("data/users.txt", "r") as file:
@@ -87,7 +87,6 @@ class UserManager:
 
             if self.users[username]["password"] == password:
                 print("Logged in successfully.")
-                self.current_user = username
                 diceGame.game_menu(username)
             else:
                 print("Invalid username or password.")
