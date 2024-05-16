@@ -9,6 +9,7 @@ class DiceGame:
     def __init__(self):
         self.scores = {}
         self.users = {}
+        self.current_users = None
         self.load_scores()
 
 #Function to automatically start the dice game
@@ -107,7 +108,7 @@ class DiceGame:
 
 #function to logout the current user
     def logout(self):
-        self = None
+        self.current_users = None
 
 #funtion for game menu
     def game_menu(self, username):
